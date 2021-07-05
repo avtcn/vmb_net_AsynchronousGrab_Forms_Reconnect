@@ -399,7 +399,7 @@ namespace AsynchronousGrab
                 }
                 catch (Exception exception)
                 {
-                    LogError("Could not start asynchronous image acquisition. Reason: " + exception.Message);
+                    LogMessage("Could not start asynchronous image acquisition. Reason: " + exception.Message);
                 }
             }
             else
@@ -421,7 +421,7 @@ namespace AsynchronousGrab
                 }
                 catch (Exception exception)
                 {
-                    LogError("Error while stopping asynchronous image acquisition. Reason: " + exception.Message);
+                    LogMessage("Error while stopping asynchronous image acquisition. Reason: " + exception.Message);
                 }
 
                 // Re-enable the camera list
