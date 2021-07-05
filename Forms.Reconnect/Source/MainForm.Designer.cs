@@ -240,7 +240,7 @@ namespace AsynchronousGrab
             this.label3.Size = new System.Drawing.Size(928, 27);
             this.label3.TabIndex = 5;
             this.label3.Text = "Programming example to demonstrate how to acquire images asynchronously (grab) wi" +
-    "th VimbaNET.";
+    "th VimbaNET. Camera disconnect/reconnect function added.";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox1
@@ -313,7 +313,7 @@ namespace AsynchronousGrab
             this.MinimumSize = new System.Drawing.Size(400, 350);
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(3);
-            this.Text = "VimbaNET Asynchronous Grab Example";
+            this.Text = "VimbaNET Asynchronous Grab Example [Camera Lost/Auto Reconnection]";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.m_CameraListTable.ResumeLayout(false);
