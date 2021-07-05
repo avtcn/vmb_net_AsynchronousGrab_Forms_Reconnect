@@ -141,7 +141,7 @@ namespace AsynchronousGrab
             // Check whether a camera lost or attached again ...
             Console.WriteLine("m_Acquiring = " + m_Acquiring);
 
-            if (m_strCurrentStreamingCameraID.Length > 0) {
+            if (m_Acquiring == false && m_strCurrentStreamingCameraID.Length > 0) {
                 // Automatically reconnect previous camera again
                 Console.WriteLine("Previous lost m_strCurrentStreamingCameraID = " + m_strCurrentStreamingCameraID);
 
