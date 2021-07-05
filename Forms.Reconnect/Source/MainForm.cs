@@ -409,11 +409,13 @@ namespace AsynchronousGrab
                     try
                     {
                         // Start asynchronous image acquisition (grab) in selected camera
-                        m_VimbaHelper.StopContinuousImageAcquisition();
+                        m_VimbaHelper.StopContinuousImageAcquisition(); 
                     }
                     finally
                     {
                         m_Acquiring = false;
+                        m_strCurrentStreamingCameraID = ""; // reset previous streaming camera name
+
                         UpdateControls();
                     }
 
