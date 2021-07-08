@@ -259,6 +259,22 @@ namespace AsynchronousGrab
                 }
             }
 
+            // Set fixed rate, such 5 fps.
+            // For GigE
+            if (this.m_Camera.Features["StreamType"].EnumValue.Contains("GEV"))
+            {
+                Console.WriteLine("For GigE camera, set fixedrate to 1.0fps");
+                this.m_Camera.Features["TriggerSource"].EnumValue = "FixedRate";
+                this.m_Camera.Features["AcquisitionFrameRateAbs"].FloatValue = 1.0f;
+            }
+            // For USB3
+            else
+            {
+
+            }
+
+
+
             // Determine if a suitable trigger can be found
             m_IsTriggerAvailable = false;
             if (this.m_Camera.Features.ContainsName("TriggerSoftware") && this.m_Camera.Features["TriggerSoftware"].IsWritable())
