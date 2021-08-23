@@ -141,8 +141,7 @@ namespace AsynchronousGrab
             // Check whether a camera lost or attached again ...
             Console.WriteLine("m_Acquiring = " + m_Acquiring);
 
-            if (m_Acquiring == false && m_strCurrentStreamingCameraID.Length > 0)
-            {
+            if (m_Acquiring == false && m_strCurrentStreamingCameraID.Length > 0) {
                 // Automatically reconnect previous camera again
                 Console.WriteLine("Previous lost m_strCurrentStreamingCameraID = " + m_strCurrentStreamingCameraID);
 
@@ -162,22 +161,8 @@ namespace AsynchronousGrab
 
 
                     }
-                }
+                } 
 
-            }
-            else if (m_Acquiring && m_strCurrentStreamingCameraID.Length > 0)
-            { 
-                // Restore the current streaming camera as the selected one in list box
-                foreach (CameraInfo cameraInfo in cameras)
-                {
-                    if (cameraInfo.Name.CompareTo(m_strCurrentStreamingCameraID) == 0)
-                    {
-                        // Select the previous lost camera again
-                        newSelectedItem = cameraInfo;
-                        m_CameraList.SelectedItem = newSelectedItem;
-                        Console.WriteLine("Select the current streaming camera " + m_strCurrentStreamingCameraID + " in list box ..." );
-                    }
-                }
             }
 
 
@@ -240,14 +225,6 @@ namespace AsynchronousGrab
                 else
                 {
                     LogMessage("An acquisition error occurred. Reason: " + args.Exception.Message);
-
-                    // Skip incomplete frame, but not stop
-                    if (args.Exception.Message.Contains("VmbFrameStatusIncomplete"))
-                    {
-
-                        LogMessage("Skip incomplete frame ...");
-                        return; // skip, but not stop
-                    }
 
                     try
                     {
