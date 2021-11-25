@@ -157,9 +157,16 @@ namespace AsynchronousGrab
                         LogMessage("+++ Found previous lost camera: " + m_strCurrentStreamingCameraID);
 
                         // DO IT
-                        AcquireButton_Click(this, null);
+                        //AcquireButton_Click(this, null);
+                        Console.WriteLine("m_AcquireButton.PerformClick() with previous camera " + m_strCurrentStreamingCameraID);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            System.Threading.Thread.Sleep(1000);
+                            Console.WriteLine(".");
 
-
+                        }
+                        m_AcquireButton.PerformClick();
+                        break; 
                     }
                 } 
 
@@ -226,25 +233,28 @@ namespace AsynchronousGrab
                 {
                     LogMessage("An acquisition error occurred. Reason: " + args.Exception.Message);
 
-                    try
+                    //if (-1 == args.Exception.Message.IndexOf("Incomplete"))
                     {
                         try
                         {
-                            // Start asynchronous image acquisition (grab) in selected camera
-                            m_VimbaHelper.StopContinuousImageAcquisition();
-                        }
-                        finally
-                        {
-                            m_Acquiring = false;
-                            UpdateControls();
-                            m_CameraList.Enabled = true;
-                        }
+                            try
+                            {
+                                // Start asynchronous image acquisition (grab) in selected camera
+                                m_VimbaHelper.StopContinuousImageAcquisition();
+                            }
+                            finally
+                            {
+                                m_Acquiring = false;
+                                UpdateControls();
+                                m_CameraList.Enabled = true;
+                            }
 
-                        LogMessage("Asynchronous image acquisition stopped.");
-                    }
-                    catch (Exception exception)
-                    {
-                        LogMessage("Error while stopping asynchronous image acquisition. Reason: " + exception.Message);
+                            LogMessage("Asynchronous image acquisition stopped.");
+                        }
+                        catch (Exception exception)
+                        {
+                            LogMessage("Error while stopping asynchronous image acquisition. Reason: " + exception.Message);
+                        }
                     }
                 }
             }

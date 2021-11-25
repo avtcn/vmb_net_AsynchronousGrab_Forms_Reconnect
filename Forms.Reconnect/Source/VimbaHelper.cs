@@ -41,6 +41,7 @@ namespace AsynchronousGrab
     /// <param name="args">The FrameEventArgs</param>
     public delegate void FrameReceivedHandler(object sender, FrameEventArgs args);
 
+
     /// <summary>
     /// A helper class as a wrapper around Vimba
     /// </summary>
@@ -80,6 +81,9 @@ namespace AsynchronousGrab
         /// Camera object if camera is open
         /// </summary>
         private Camera m_Camera = null;
+
+
+        private ulong m_PrevTimestamp = 0;
 
         /// <summary>
         /// Flag for determining the availability of a suitable software trigger
@@ -541,6 +545,18 @@ namespace AsynchronousGrab
             {
                 // Convert frame into displayable image
                 Image image = ConvertFrame(frame);
+                Console.WriteLine("OnFrameReceived(): FrameID = {0}, TS = {1}", frame.FrameID, frame.Timestamp);
+
+                if (m_PrevTimestamp > 0)
+                {
+                    if (frame.Timestamp - m_PrevTimestamp <= 0)
+                    {
+                        Console.WriteLine("ERROR: OnFrameReceived() get wrong timestamp: FrameID = {0}, TS = {1}", frame.FrameID, frame.Timestamp);
+                    }
+
+                }
+
+                m_PrevTimestamp = frame.Timestamp; 
 
                 FrameReceivedHandler frameReceivedHandler = this.m_FrameReceivedHandler;
                 if (null != frameReceivedHandler && null != image)
