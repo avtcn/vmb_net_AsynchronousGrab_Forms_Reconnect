@@ -545,13 +545,13 @@ namespace AsynchronousGrab
             {
                 // Convert frame into displayable image
                 Image image = ConvertFrame(frame);
-                Console.WriteLine("OnFrameReceived(): FrameID = {0}, TS = {1}", frame.FrameID, frame.Timestamp);
+                Console.WriteLine("OnFrameReceived(): FrameID = {0,9}, TS = {1,15}", frame.FrameID, frame.Timestamp);
 
                 if (m_PrevTimestamp > 0)
                 {
                     if (frame.Timestamp - m_PrevTimestamp <= 0)
                     {
-                        Console.WriteLine("ERROR: OnFrameReceived() get wrong timestamp: FrameID = {0}, TS = {1}", frame.FrameID, frame.Timestamp);
+                        Console.WriteLine("ERROR: OnFrameReceived() get wrong timestamp: FrameID = {0,9}, TS = {1,15}", frame.FrameID, frame.Timestamp);
                     }
 
                 }

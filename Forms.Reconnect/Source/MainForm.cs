@@ -535,11 +535,13 @@ namespace AsynchronousGrab
 
             UpdateControls();
 
+            /*
             // In case that the check box is still checked, enable the software trigger
             if (m_VimbaHelper.IsTriggerAvailable)
             {
                 m_VimbaHelper.EnableSoftwareTrigger(m_SoftwareTriggerCheckbox.Checked);
             }
+            */
         }
     }
 }
