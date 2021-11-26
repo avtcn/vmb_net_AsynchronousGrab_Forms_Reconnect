@@ -192,11 +192,40 @@ namespace AsynchronousGrab
 
             if (null != m_VimbaHelper)
             {
-                Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + "() called ...");
+                Console.WriteLine("XXXXXXXXXXXXXXXXXXXX " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() called ..., reason = " + (int)sender);
+
+                if (m_Acquiring && (int)AVT.VmbAPINET.VmbUpdateTriggerType.VmbUpdateTriggerPluggedOut == (int)sender)
+                {
+                    Console.WriteLine("XXXXXXXXXXXXXXXXXXXX " + System.Reflection.MethodBase.GetCurrentMethod().Name + "() called ..., PluggedOut event happened"); 
+
+                    // Stop streaming
+                    {
+                        try
+                        {
+                            try
+                            {
+                                // Start asynchronous image acquisition (grab) in selected camera
+                                m_VimbaHelper.StopContinuousImageAcquisition();
+                            }
+                            finally
+                            {
+                                m_Acquiring = false;
+                                UpdateControls();
+                                m_CameraList.Enabled = true;
+                            }
+
+                            LogMessage("Asynchronous image acquisition stopped.");
+                        }
+                        catch (Exception exception)
+                        {
+                            LogMessage("Error while stopping asynchronous image acquisition. Reason: " + exception.Message);
+                        }
+                    }
+                }
+
                 try
                 {
-                    UpdateCameraList();
-
+                    UpdateCameraList(); 
                     LogMessage("Camera list updated.");
                 }
                 catch (Exception exception)
@@ -233,7 +262,11 @@ namespace AsynchronousGrab
                 {
                     LogMessage("An acquisition error occurred. Reason: " + args.Exception.Message);
 
-                    //if (-1 == args.Exception.Message.IndexOf("Incomplete"))
+                    if (-1 != args.Exception.Message.IndexOf("Incomplete"))
+                    {
+                        Console.WriteLine("Frame Incomplete: do no stop streaming ...");
+                    }
+                    else
                     {
                         try
                         {
@@ -394,6 +427,7 @@ namespace AsynchronousGrab
 
                     // Open the camera if it was not opened before
                     m_VimbaHelper.OpenCamera(selectedItem.ID);
+                    LogMessage("Camera opened: " + selectedItem.ID);
 
                     // Start asynchronous image acquisition (grab) in selected camera
                     m_VimbaHelper.StartContinuousImageAcquisition(this.OnFrameReceived);
@@ -405,7 +439,7 @@ namespace AsynchronousGrab
                     // Disable the camera list to inhibit changing the camera
                     m_CameraList.Enabled = false;
 
-                    LogMessage("Asynchronous image acquisition started.");
+                    LogMessage("Asynchronous image acquisition started. Camera ID: " + selectedItem.ID);
                 }
                 catch (Exception exception)
                 {

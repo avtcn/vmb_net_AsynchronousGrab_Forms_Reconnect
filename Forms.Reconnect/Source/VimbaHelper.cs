@@ -240,7 +240,7 @@ namespace AsynchronousGrab
         /// <param name="id">The camera ID</param>
         public void OpenCamera(string id)
         {
-            Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + "() called ...");
+            Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + "() called ..., camera id "+ id);
             // Check parameters
             if (null == id)
             {
@@ -351,6 +351,7 @@ namespace AsynchronousGrab
         public void StopContinuousImageAcquisition()
         {
             Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name + "() called ...");
+
             // Check if API has been started up at all
             if (null == this.m_Vimba)
             {
@@ -610,7 +611,8 @@ namespace AsynchronousGrab
                         CameraListChangedHandler cameraListChangedHandler = this.m_CameraListChangedHandler;
                         if (null != cameraListChangedHandler)
                         {
-                            cameraListChangedHandler(this, EventArgs.Empty);
+                            //cameraListChangedHandler(this, EventArgs.Empty);
+                            cameraListChangedHandler((object)reason, EventArgs.Empty);
                         }
                     }
 
