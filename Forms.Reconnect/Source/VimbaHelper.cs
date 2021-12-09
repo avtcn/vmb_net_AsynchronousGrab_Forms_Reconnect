@@ -160,7 +160,7 @@ namespace AsynchronousGrab
                 CameraCollection cameras = this.m_Vimba.Cameras;
                 foreach (Camera camera in cameras)
                 {
-                    cameraList.Add(new CameraInfo(camera.Name, camera.Id));
+                    cameraList.Add(new CameraInfo(camera.Name, camera.Id, camera.SerialNumber));
                 }
 
                 return cameraList;
@@ -506,7 +506,8 @@ namespace AsynchronousGrab
                         {
                             if (null != this.m_FrameReceivedHandler)
                             {
-                                this.m_Camera.OnFrameReceived -= this.OnFrameReceived;
+                                if (null != this.m_Camera)
+                                    this.m_Camera.OnFrameReceived -= this.OnFrameReceived;
                             }
                         }
                         finally
@@ -515,7 +516,8 @@ namespace AsynchronousGrab
                             if (true == this.m_Acquiring)
                             {
                                 this.m_Acquiring = false;
-                                this.m_Camera.StopContinuousImageAcquisition();
+                                if (null != this.m_Camera)
+                                    this.m_Camera.StopContinuousImageAcquisition();
                                 if (this.IsTriggerAvailable)
                                 {
                                     this.EnableSoftwareTrigger(false);
@@ -525,7 +527,8 @@ namespace AsynchronousGrab
                     }
                     finally
                     {
-                        this.m_Camera.Close();
+                        if(null != this.m_Camera)
+                            this.m_Camera.Close();
                     }
                 }
                 finally
@@ -546,13 +549,13 @@ namespace AsynchronousGrab
             {
                 // Convert frame into displayable image
                 Image image = ConvertFrame(frame);
-                Console.WriteLine("OnFrameReceived(): FrameID = {0,9}, TS = {1,15}", frame.FrameID, frame.Timestamp);
+                Console.WriteLine("OnFrameReceived(): Camera = {2}, SN = {3}, FrameID = {0,9}, TS = {1,15}", frame.FrameID, frame.Timestamp, m_Camera.Id, m_Camera.SerialNumber);
 
                 if (m_PrevTimestamp > 0)
                 {
                     if (frame.Timestamp - m_PrevTimestamp <= 0)
                     {
-                        Console.WriteLine("ERROR: OnFrameReceived() get wrong timestamp: FrameID = {0,9}, TS = {1,15}", frame.FrameID, frame.Timestamp);
+                        Console.WriteLine("ERROR: OnFrameReceived() get wrong timestamp: Camera = {2}, SN = {3}, FrameID = {0,9}, TS = {1,15}", frame.FrameID, frame.Timestamp, m_Camera.Id, m_Camera.SerialNumber);
                     }
 
                 }

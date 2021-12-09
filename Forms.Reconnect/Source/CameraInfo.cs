@@ -37,13 +37,14 @@ namespace AsynchronousGrab
         /// The camera ID
         /// </summary>
         private string m_ID = null;
+        private string m_SN = null;
 
         /// <summary>
         /// Initializes a new instance of the CameraInfo class.
         /// </summary>
         /// <param name="name">The camera name</param>
         /// <param name="id">The camera ID</param>
-        public CameraInfo(string name, string id)
+        public CameraInfo(string name, string id, string sn = "")
         {
             if (null == name)
             {
@@ -57,6 +58,7 @@ namespace AsynchronousGrab
 
             this.m_Name = name;
             this.m_ID = id;
+            this.m_SN = sn;
         }
 
         /// <summary>
@@ -81,13 +83,24 @@ namespace AsynchronousGrab
             }
         }
 
+        public string SN
+        {
+            get
+            {
+                return this.m_SN;
+            }
+        }
+
         /// <summary>
         /// Overrides the toString Method for the CameraInfo class (this)
         /// </summary>
         /// <returns>The Name of the camera</returns>
         public override string ToString()
         {
-            return this.m_Name;
+            string strItemTag = this.m_SN + " " + this.m_Name;
+            strItemTag = strItemTag.Replace("Allied Vision", "");
+
+            return strItemTag;
         }
     }
 }

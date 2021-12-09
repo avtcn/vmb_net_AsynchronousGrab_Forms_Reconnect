@@ -148,7 +148,7 @@ namespace AsynchronousGrab
                 // if the target camera appears again, just streaming with it automatically ...
                 foreach (CameraInfo cameraInfo in cameras)
                 {
-                    if (cameraInfo.Name.CompareTo(m_strCurrentStreamingCameraID) == 0)
+                    if (cameraInfo.SN.CompareTo(m_strCurrentStreamingCameraID) == 0)
                     {
                         // Select the previous lost camera again
                         newSelectedItem = cameraInfo;
@@ -433,7 +433,8 @@ namespace AsynchronousGrab
                     m_VimbaHelper.StartContinuousImageAcquisition(this.OnFrameReceived);
 
                     m_Acquiring = true;
-                    m_strCurrentStreamingCameraID = selectedItem.Name;
+                    //m_strCurrentStreamingCameraID = selectedItem.ID;
+                    m_strCurrentStreamingCameraID = selectedItem.SN;
                     UpdateControls();
 
                     // Disable the camera list to inhibit changing the camera
@@ -554,6 +555,8 @@ namespace AsynchronousGrab
         /// <param name="e"></param>
         private void m_CameraList_Click(object sender, EventArgs e)
         {
+            return;
+
             // Close the camera if it was opened
             m_VimbaHelper.CloseCamera();
 
